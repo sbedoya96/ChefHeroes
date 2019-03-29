@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sergio</title>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+</head>
+<body>
+
+	<div id="Peliculas"></div>
+	
+	<script>	
+		$(function(){
+			if($.urlParam('ID') != null && parseInt($.urlParam('ID')) > 0 ){
+				$.getJSON("Data.json", function(result){
+					if(result.length > 0){
+						var html = "";
+						html = html + 
+						'<div class="blog_items">'+
+							'<div class="blog_img_box">'+
+								'<img class="img-fluid" src="'+result[$.urlParam('ID')-1].picture+'" alt="">'+
+							'</div>'+
+							'<div class="blog_content">'+
+								'<a class="title" href="Detalle.html?ID='+$.urlParam('ID')+'">'+result[$.urlParam('ID')-1].name+'</a>'+
+								'<p>'+result[$.urlParam('ID')-1].info+'</p>'+
+								'<p>'+result[$.urlParam('ID')-1].publisher+'</p>'+
+								'<div class="date">'+
+									'<a href="#"><i class="fa fa-heart" aria-hidden="true"></i> 15</a>'+
+									'<a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 05</a>'+
+								'</div>'+
+							'</div>'+
+						'</div>';
+						$("#Peliculas").html(html);
+					}
+				});				
+			}else{
+				redirect("index.html");
+			}
+		});
+
+		$.urlParam = function (name) {
+    		var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.search);
+    		return (results !== null) ? results[1] || 0 : false;
+		}
+
+		function redirect (url) {
+		    var ua        = navigator.userAgent.toLowerCase(),
+		        isIE      = ua.indexOf('msie') !== -1,
+		        version   = parseInt(ua.substr(4, 2), 10);
+
+		    // Internet Explorer 8 and lower
+		    if (isIE && version < 9) {
+		        var link = document.createElement('a');
+		        link.href = url;
+		        document.body.appendChild(link);
+		        link.click();
+		    }
+
+		    // All other browsers can use the standard window.location.href (they don't lose HTTP_REFERER like Internet Explorer 8 & lower does)
+		    else { 
+		        window.location.href = url; 
+		    }
+		}
+
+	</script>
+</body>
+</html>
