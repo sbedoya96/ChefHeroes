@@ -24,7 +24,7 @@ cookies = if you want to use cookies to remember which page the user is on, true
             next: "Siguiente",
             previous: "Anterior",
             active: "active",
-            pagination_class: "pagination",
+            pagination_class: "pagination justify-content-end",
             minimize: false,
             nav_items: 4,
 			cookies: true
@@ -76,12 +76,12 @@ cookies = if you want to use cookies to remember which page the user is on, true
             // create the navigation for the pagination 
             function createPagination(curr) {
                 var start, items = "", end, nav = "";
-                start = "<ul class='"+options.pagination_class+"'>";
-                var previous = "<li><a class='goto_previous' href='#'>"+options.previous+"</a></li>";
-                var next = "<li><a class='goto_next' href='#'>"+options.next+"</a></li>";
-				var previous_inactive = "<li><a class='inactive'>"+options.previous+"</a></li>";
-                var next_inactive = "<li><a class='inactive'>"+options.next+"</a></li>";
-                end = "</ul>"
+                start = "<nav><ul class='"+options.pagination_class+"'>";
+                var previous = "<li class='page-item'><a class='goto_previous' href='#'>"+options.previous+"</a></li>";
+                var next = "<li class='page-item'><a class='goto_next' href='#'>"+options.next+"</a></li>";
+				var previous_inactive = "<li class='page-item'><a class='inactive'>"+options.previous+"</a></li>";
+                var next_inactive = "<li class='page-item'><a class='inactive'>"+options.next+"</a></li>";
+                end = "</ul></nav>"
                 var after = number_of_pages - options.after + 1;
                 var pagi_range = paginationCalculator(curr);
 				for (i=1;i<=number_of_pages;i++)
@@ -89,22 +89,22 @@ cookies = if you want to use cookies to remember which page the user is on, true
                     if (options.minimize == true) {
 						var half = Math.ceil(number_of_pages/2)
                     	if (i >= pagi_range.start && i <= pagi_range.end) {
-							if (i == curr) { items += '<li><a class="'+options.active+'" title="'+i+'">'+i+'</a></li>';} 
-                        	else { items += '<li><a href="#" class="goto" title="'+i+'">'+i+'</a></li>';}
+							if (i == curr) { items += '<li class="page-item"><a class="'+options.active+'" title="'+i+'">'+i+'</a></li>';} 
+                        	else { items += '<li class="page-item"><a href="#" class="goto" title="'+i+'">'+i+'</a></li>';}
 						} else if (curr <= half) {
 							if (i >= (number_of_pages - 2)) {
-								if (i == curr) { items += '<li><a class="'+options.active+'" title="'+i+'">'+i+'</a></li>';} 
-                        		else { items += '<li><a href="#" class="goto" title="'+i+'">'+i+'</a></li>';}
+								if (i == curr) { items += '<li class="page-item"><a class="'+options.active+'" title="'+i+'">'+i+'</a></li>';} 
+                        		else { items += '<li class="page-item"><a href="#" class="goto" title="'+i+'">'+i+'</a></li>';}
 							} 
 						} else if (curr >= half) {
 							if (i <= 2) {
-								if (i == curr) { items += '<li><a class="'+options.active+'" title="'+i+'">'+i+'</a></li>';} 
-                        		else { items += '<li><a href="#" class="goto" title="'+i+'">'+i+'</a></li>';}
+								if (i == curr) { items += '<li class="page-item"><a class="'+options.active+'" title="'+i+'">'+i+'</a></li>';} 
+                        		else { items += '<li class="page-item"><a href="#" class="goto" title="'+i+'">'+i+'</a></li>';}
 							}
 						}
                     } else {
-                        if (i == curr) { items += '<li><a class="'+options.active+'" title="'+i+'">'+i+'</a></li>';} 
-                        else { items += '<li><a href="#" class="goto" title="'+i+'">'+i+'</a></li>';}
+                        if (i == curr) { items += '<li class="page-item"><a class="'+options.active+'" title="'+i+'">'+i+'</a></li>';} 
+                        else { items += '<li class="page-item"><a href="#" class="goto" title="'+i+'">'+i+'</a></li>';}
                     }
                 }
                 if (curr != 1 && curr != number_of_pages) {
@@ -134,7 +134,7 @@ cookies = if you want to use cookies to remember which page the user is on, true
 			}
 			
             // handle click on pagination 
-            $(".goto").on("click", function(e){
+            $(".goto").live("click", function(e){
                 e.preventDefault();
                 showPage($(this).attr("title"));
 				set_cookie( "currentIMG", $(this).attr("title"));
@@ -142,7 +142,7 @@ cookies = if you want to use cookies to remember which page the user is on, true
                 createPagination($(this).attr("title"));
                 ArribaS4();
             });
-            $(".goto_next").on("click", function(e) {
+            $(".goto_next").live("click", function(e) {
                 e.preventDefault();
                 var act = "."+options.active;
                 var newcurr = parseInt($(".pagination").find(".active").attr("title")) + 1;
@@ -152,7 +152,7 @@ cookies = if you want to use cookies to remember which page the user is on, true
                 createPagination(newcurr);
                 ArribaS4();
             });
-            $(".goto_previous").on("click", function(e) {
+            $(".goto_previous").live("click", function(e) {
               if($("#Personajes").length > 4){
                 e.preventDefault();
                 var act = "."+options.active;
